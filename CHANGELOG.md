@@ -1,10 +1,14 @@
 ## Changelog
 
-## UNRELEASED 7.0.1
+## 7.0.2
+
+* Fixed google maps interaction on mobile phones
+
+## 7.0.1
 
 * Fixed interactivity error when there are more than touch at the same time
 
-## UNRELEASED 7.0.0
+## 7.0.0
 
 * Removes the `wax.mm.latlngtooltip()`
 * Renames styles from `.wax-` as their prefix to `.map-`
