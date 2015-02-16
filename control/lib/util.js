@@ -45,6 +45,16 @@ wax.u = {
             }
         };
 
+        //Function that protects 'Unspected error' with Internet Explorer 11
+        function calculateOffsetIE(){
+          calculateOffset(el);
+          try {
+              while (el = el.offsetParent) { calculateOffset(el); }
+          } catch(e) {
+              // Hello, internet explorer.
+          }
+        }
+
         // from jquery, offset.js
         if ( typeof el.getBoundingClientRect !== "undefined" ) {
           var body = document.body;
@@ -54,17 +64,17 @@ wax.u = {
           var scrollTop  = window.pageYOffset || doc.scrollTop;
           var scrollLeft = window.pageXOffset || doc.scrollLeft;
 
-          var box = el.getBoundingClientRect();
-          top = box.top + scrollTop  - clientTop;
-          left = box.left + scrollLeft - clientLeft;
-
-        } else {
-          calculateOffset(el);
+          //With Internet Explorer 11, the function getBoundingClientRect() sometimes
+          //triggers the error: 'Unspected error.' Protecting it with try/catch
           try {
-              while (el = el.offsetParent) { calculateOffset(el); }
+              var box = el.getBoundingClientRect();
+              top = box.top + scrollTop  - clientTop;
+              left = box.left + scrollLeft - clientLeft;
           } catch(e) {
-              // Hello, internet explorer.
+              calculateOffsetIE();
           }
+        } else {
+          calculateOffsetIE();
         }
 
         // Offsets from the body
