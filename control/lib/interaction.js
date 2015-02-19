@@ -117,10 +117,12 @@ wax.interaction = function() {
         // Only track single-touches. Double-touches will not affect this
         // control
         } else if (e.type === 'touchstart' && e.touches.length === 1) {
-            // Don't make the user click close if they hit another tooltip
-            bean.fire(interaction, 'off');
-            // Touch moves invalidate touches
-            bean.add(parent(), touchEnds);
+            //GMaps fix: Because it's triggering always mousedown and click, we've to remove it
+            bean.remove(document.body, 'click', onUp); //GMaps fix
+
+            //When we finish dragging, then the click will be 
+            bean.add(document.body, 'click', onUp);
+            bean.add(document.body, 'touchEnd', dragEnd);
         } else if (e.originalEvent.type === "MSPointerDown" && e.originalEvent.touches && e.originalEvent.touches.length === 1) {
           // Don't make the user click close if they hit another tooltip
             bean.fire(interaction, 'off');
