@@ -133,6 +133,11 @@ wax.interaction = function() {
             bean.fire(interaction, 'off');
             // Touch moves invalidate touches
             bean.add(parent(), pointerEnds);
+        } else {
+            // Fix layer interaction in IE10/11 (CDBjs #139)
+            // Reason: Internet Explorer is triggering pointerdown when you click on the marker, and other browsers don't.
+            // Because of that, _downLock was active and it believed that you're dragging the map, instead of dragging the marker
+            _downLock = false;
         }
 
     }
