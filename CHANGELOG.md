@@ -1,5 +1,8 @@
 ## Changelog
 
+## 7.0.X
+* Don't assume mapType is defined
+
 ## 7.0.2
 
 * Fixed google maps interaction on mobile phones
