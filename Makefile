@@ -6,7 +6,6 @@ dist: dist_setup dist/wax.ol.min.js \
 	dist/wax.esri.min.js \
 	dist/wax.leaf.min.js \
 	dist/wax.cartodb.min.js \
-	lint
 
 # mindist: dist_setup dist/wax.g.min.js dist/wax.mm.min.js dist/wax.leaf.min.js lint
 
@@ -85,9 +84,6 @@ dist_setup:
 ext:
 	-test ! -d ext && mkdir ext
 	wget --no-check-certificate http://openlayers.org/api/2.10/OpenLayers.js -O ext/OpenLayers.js
-	wget --no-check-certificate https://raw.github.com/CloudMade/Leaflet/master/dist/leaflet.js -O ext/leaflet.js
-	wget --no-check-certificate https://raw.github.com/CloudMade/Leaflet/master/dist/leaflet.css -O ext/leaflet.css
-	wget --no-check-certificate https://raw.github.com/CloudMade/Leaflet/master/dist/leaflet.ie.css -O ext/leaflet.ie.css
 	wget --no-check-certificate https://github.com/stamen/modestmaps-js/raw/v0.17.0/modestmaps.min.js -O ext/modestmaps.min.js
 
 lint:
