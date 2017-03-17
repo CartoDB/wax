@@ -1,4 +1,4 @@
-/* wax - 7.0.1 - v6.0.4-180-g3590463 */
+/* wax - 7.0.1 - v6.0.4-183-g7163be9 */
 
 
 !function (name, context, definition) {
@@ -3552,7 +3552,7 @@ wax.g.connector.prototype.getTileUrl = function(coord, z) {
 
     x = (x < 0) ? (coord.x % mod) + mod : x;
 
-    if (y < 0) return this.options.blankImage;
+    if (y < 0 || y > (mod - 1)) return this.options.blankImage;
 
     return this.options.tiles
         [parseInt(x + y, 10) %
