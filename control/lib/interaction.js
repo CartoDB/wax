@@ -238,7 +238,7 @@ wax.interaction = function() {
             if (err) return callback(err, null);
             if (!g) return callback(null, null);
             var feature = g.tileFeature(pos.x, pos.y, tile);
-            callback(feature);
+            callback(null, feature);
         });
     };
 
