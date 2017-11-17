@@ -109,6 +109,7 @@ wax.gm = function() {
 
         wax.request.get(gurl, function(err, t) {
             if (err) return callback(err, null);
+            if (t.errors_with_context) return callback(t.errors_with_context, null);
             callback(null, wax.gi(t, {
                 formatter: formatter,
                 resolution: resolution

@@ -16,8 +16,8 @@ wax.interaction = function() {
         parent,
         map,
         tileGrid,
-        // google maps sends touchmove and click at the same time 
-        // most of the time when an user taps the screen, see onUp 
+        // google maps sends touchmove and click at the same time
+        // most of the time when an user taps the screen, see onUp
         // for more information
         _discardTouchMove = false;
 
@@ -84,7 +84,7 @@ wax.interaction = function() {
         var _e = (e.type !== "MSPointerMove" && e.type !== "pointermove" ? e : e.originalEvent);
         var pos = wax.u.eventoffset(_e);
 
-        interaction.screen_feature(pos, function(feature) {
+        interaction.screen_feature(pos, function(error, feature) {
             if (feature) {
                 bean.fire(interaction, 'on', {
                     parent: parent(),
@@ -93,7 +93,9 @@ wax.interaction = function() {
                     e: e
                 });
             } else {
-                bean.fire(interaction, 'off');
+                bean.fire(interaction, 'off', error && {
+                    errors: error
+                });
             }
         });
     }
@@ -107,7 +109,7 @@ wax.interaction = function() {
         // Store this event so that we can compare it to the
         // up event
         _downLock = true;
-        var _e = (e.type !== "MSPointerDown" && e.type !== "pointerdown" ? e : e.originalEvent); 
+        var _e = (e.type !== "MSPointerDown" && e.type !== "pointerdown" ? e : e.originalEvent);
         _d = wax.u.eventoffset(_e);
         if (e.type === 'mousedown') {
             bean.add(document.body, 'click', onUp);
@@ -120,7 +122,7 @@ wax.interaction = function() {
             //GMaps fix: Because it's triggering always mousedown and click, we've to remove it
             bean.remove(document.body, 'click', onUp); //GMaps fix
 
-            //When we finish dragging, then the click will be 
+            //When we finish dragging, then the click will be
             bean.add(document.body, 'click', onUp);
             bean.add(document.body, 'touchEnd', dragEnd);
         } else if (e.originalEvent.type === "MSPointerDown" && e.originalEvent.touches && e.originalEvent.touches.length === 1) {
@@ -219,7 +221,7 @@ wax.interaction = function() {
 
     // Handle a click event. Takes a second
     interaction.click = function(e, pos) {
-        interaction.screen_feature(pos, function(feature) {
+        interaction.screen_feature(pos, function(err, feature) {
             if (feature) bean.fire(interaction, 'on', {
                 parent: parent(),
                 data: feature,
@@ -231,11 +233,12 @@ wax.interaction = function() {
 
     interaction.screen_feature = function(pos, callback) {
         var tile = getTile(pos);
-        if (!tile) callback(null);
+        if (!tile) callback(null, null);
         gm.getGrid(tile.src, function(err, g) {
-            if (err || !g) return callback(null);
+            if (err) return callback(err, null);
+            if (!g) return callback(null, null);
             var feature = g.tileFeature(pos.x, pos.y, tile);
-            callback(feature);
+            callback(null, feature);
         });
     };
 
